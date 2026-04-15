@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/bhirahatees-periyasamy/internal/cli"
+	"github.com/bhirahatees-periyasamy/internal/evaluator"
 	"github.com/bhirahatees-periyasamy/internal/parser"
 )
 
@@ -17,9 +18,15 @@ func main() {
 			return
 		}
 
-		fmt.Println(input)
-		parser = &parser.Expression{}
+		exp := &parser.Expression{}
+		exp.Parse(input)
 
-		parser.parser(input)
+		result, err := evaluator.Evaluate(exp)
+		if err != nil {
+			fmt.Println("Error:", err)
+			continue
+		}
+
+		fmt.Println(result)
 	}
 }

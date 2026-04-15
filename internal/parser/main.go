@@ -6,26 +6,35 @@ import (
 )
 
 type Expression struct {
-	left      string
-	operation Operator
-	right     string
+	Left      string
+	Operation Operator
+	Right     string
 }
 
 func (exp *Expression) Parse(input string) {
-	parts := strings.Fields(input)
+	parts := strings.Split(input, "")
 
-	partSlice = new([]string)
+	partSlice := []string{}
+
+	for _, part := range parts {
+		if strings.TrimSpace(part) != "" {
+			partSlice = append(partSlice, part)
+			fmt.Println(partSlice)
+		}
+	}
 
 	if len(partSlice) != 3 {
 		fmt.Println("Invalid expression. Use format: 2 + 3")
 		return
 	}
 
-	exp.left = parts[0]
-	exp.operation = parts[1]
-	exp.right = parts[2]
+	op, err := ParseOperator(partSlice[1])
+	if err != nil {
+		fmt.Println("Invalid operator:", err)
+		return
+	}
 
-	fmt.Println("Left:", exp.left)
-	fmt.Println("Operator:", exp.operation)
-	fmt.Println("Right:", exp.right)
+	exp.Left = partSlice[0]
+	exp.Operation = op
+	exp.Right = partSlice[2]
 }
